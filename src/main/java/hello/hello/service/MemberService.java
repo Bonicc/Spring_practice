@@ -3,6 +3,8 @@ package hello.hello.service;
 import hello.hello.domain.Member;
 import hello.hello.repository.MemberRepository;
 import hello.hello.repository.MemoryMemberRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.swing.text.html.Option;
 import java.util.List;
@@ -10,10 +12,13 @@ import java.util.Optional;
 
 
 // ctrl shfit T
+// @Service
+// @Component 가 @Service 안에 포함되어있음
 public class MemberService {
 
     private final MemberRepository memberRepository;
 
+    // @Autowired
     public MemberService(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
