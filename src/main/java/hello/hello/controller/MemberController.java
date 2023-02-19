@@ -1,8 +1,14 @@
 package hello.hello.controller;
 
+import hello.hello.domain.Member;
 import hello.hello.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.List;
 
 // componentScan과 자동 의존관계 설정
 // Autowired, Service(Component)
@@ -18,7 +24,7 @@ public class MemberController {
     private final MemberService memberService; // 등록하기 위해서 사용
 
     // constructor, alt+Insert
-    @Autowired
+    //@Autowired
     public MemberController(MemberService memberService) {
         this.memberService = memberService;
     }
@@ -37,4 +43,25 @@ public class MemberController {
 
     // 보통 컨트롤러는 서비스 중에는 바뀔일이 없으므로(안에 내용물도?)
     // 차라리 1번이 가장 선호됨.
+
+    @GetMapping("/members/new")
+    public String createForm(){
+        return "members/createMemberForm";
+    }
+
+    @PostMapping("/members/new")
+    public String create(MemberForm form){
+        Member member = new Member();
+        member.setName(form.getName());
+        memberService.join(member);
+
+        return "redirect:/";
+    }
+
+    @GetMapping("/members")
+    public String list(Model model){
+        List<Member> members = memberService.findMembers();
+        model.addAttribute("members", members);
+        return "members/memberList";
+    }
 }
